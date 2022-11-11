@@ -1,0 +1,41 @@
+const data = {
+  products: [
+    {
+      name: "Asus",
+      slug: "asus-mo01",
+      category: "Laptop",
+      image: "/images/pic1.jfif",
+      price: 1000000,
+      countInStock: 10,
+      brand: "Asus",
+      rating: 4,
+      numReview: 10,
+      description: "Asus Vivo book",
+    },
+    {
+      name: "Asus",
+      slug: "asus-mo02",
+      category: "Laptop",
+      image: "/images/pic1.jfif",
+      price: 1000000,
+      countInStock: 10,
+      brand: "Asus",
+      rating: 4,
+      numReview: 10,
+      description: "Asus Vivo book",
+    },
+    {
+      name: "Asus",
+      slug: "asus-mo03",
+      category: "Laptop",
+      image: "/images/pic1.jfif",
+      price: 1000000,
+      countInStock: 10,
+      brand: "Asus",
+      rating: 4,
+      numReview: 10,
+      description: "Asus Vivo book",
+    },
+  ],
+};
+export default data;
