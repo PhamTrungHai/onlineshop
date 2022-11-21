@@ -1,7 +1,7 @@
 const data = {
   products: [
     {
-      _id: '1',
+      //_id: '1',
       name: 'Asus',
       slug: 'asus-mo01',
       category: 'Laptop',
@@ -14,8 +14,8 @@ const data = {
       description: 'Asus Vivo book',
     },
     {
-      _id: '2',
-      name: 'Asus',
+      //_id: '2',
+      name: 'Asus1',
       slug: 'asus-mo02',
       category: 'Laptop',
       image: '/images/pic1.jfif',
@@ -27,8 +27,8 @@ const data = {
       description: 'Asus Vivo book',
     },
     {
-      _id: '3',
-      name: 'Asus',
+      //_id: '3',
+      name: 'Asus2',
       slug: 'asus-mo03',
       category: 'Laptop',
       image: '/images/pic1.jfif',
