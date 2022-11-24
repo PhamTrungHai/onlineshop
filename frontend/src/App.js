@@ -14,6 +14,7 @@ import { Store } from './Store';
 import CartScreen from './screens/CartScreen';
 import SignInScreen from './screens/SignInScreen';
 import ShippingAddressScreen from './screens/ShippingAddressScreen';
+import SignUpScreen from './screens/SignUpScreen';
 
 function App() {
   const { state, dispatch: ctxDispatch } = useContext(Store);
@@ -31,7 +32,7 @@ function App() {
         <nav>
           <ToastContainer
             position="top-center"
-            autoClose={5000}
+            autoClose={4000}
             hideProgressBar={false}
             newestOnTop={false}
             closeOnClick
@@ -90,6 +91,7 @@ function App() {
               <Route path="/" element={<HomeScreen />} />
               <Route path="/cart" element={<CartScreen />} />
               <Route path="/signin" element={<SignInScreen />} />
+              <Route path="/signup" element={<SignUpScreen />} />
               <Route path="/shipping" element={<ShippingAddressScreen />} />
             </Routes>
           </Container>
