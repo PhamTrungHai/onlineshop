@@ -3,7 +3,7 @@ import HomeScreen from './screens/HomeScreen';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ProducScreen from './screens/ProductScreen';
-import NavBar from 'react-bootstrap/Navbar';
+import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import Container from 'react-bootstrap/Container';
@@ -18,6 +18,7 @@ import SignUpScreen from './screens/SignUpScreen';
 import PaymentMethodScreen from './screens/PaymentMethodScreen';
 import PlaceOrderScreen from './screens/PlaceOrderScreen';
 import OrderScreen from './screens/OrderScreen';
+import OrderHistoryScreen from './screens/OrderHistoryScreen';
 
 function App() {
   const { state, dispatch: ctxDispatch } = useContext(Store);
@@ -33,26 +34,27 @@ function App() {
   return (
     <BrowserRouter>
       <div className="d-flex flex-column site-container">
-        <nav>
-          <ToastContainer
-            position="top-center"
-            autoClose={4000}
-            hideProgressBar={false}
-            newestOnTop={false}
-            closeOnClick
-            rtl={false}
-            pauseOnFocusLoss
-            draggable
-            pauseOnHover
-            theme="dark"
-          />
-          <header className="App-header">
-            <NavBar bg="dark" variant="dark">
-              <Container>
-                <LinkContainer to="/">
-                  <NavBar.Brand>Laptopshop</NavBar.Brand>
-                </LinkContainer>
-                <Nav className="me-auto">
+        <ToastContainer
+          position="top-center"
+          autoClose={4000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="dark"
+        />
+        <header className="App-header">
+          <Navbar bg="dark" variant="dark" expand="lg">
+            <Container>
+              <LinkContainer to="/">
+                <Navbar.Brand>Laptopshop</Navbar.Brand>
+              </LinkContainer>
+              <Navbar.Toggle aria-controls="basic-Navbar-nav" />
+              <Navbar.Collapse id="basic-Navbar-nav">
+                <Nav className="me-auto w-100 justify-content-end">
                   <Link to="/cart" className="nav-link">
                     Cart
                     {cart.cartItems.length > 0 && (
@@ -84,10 +86,10 @@ function App() {
                     </Link>
                   )}
                 </Nav>
-              </Container>
-            </NavBar>
-          </header>
-        </nav>
+              </Navbar.Collapse>
+            </Container>
+          </Navbar>
+        </header>
         <main>
           <Container className="mt-3">
             <Routes>
@@ -100,6 +102,7 @@ function App() {
               <Route path="/payment" element={<PaymentMethodScreen />} />
               <Route path="/placeorder" element={<PlaceOrderScreen />} />
               <Route path="/order/:id" element={<OrderScreen />} />
+              <Route path="/orderhistory" element={<OrderHistoryScreen />} />
             </Routes>
           </Container>
         </main>
