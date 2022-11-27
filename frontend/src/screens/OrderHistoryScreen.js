@@ -81,7 +81,7 @@ export default function OrderHistoryScreen() {
                     type="button"
                     variant="light"
                     onClick={() => {
-                      navigate(`/oder/${order._id}`);
+                      navigate(`/order/${order._id}`);
                     }}
                   >
                     Details
