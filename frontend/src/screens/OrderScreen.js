@@ -162,5 +162,5 @@ export default function OrderScreen() {
         </Col>
       </Row>
     </div>
-  );
+  ); //TODO: TẠO THANH TOÁN MOMO VNP
 }
