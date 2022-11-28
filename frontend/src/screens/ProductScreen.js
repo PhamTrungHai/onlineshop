@@ -91,7 +91,7 @@ function ProducScreen() {
             <ListGroup.Item>
               <Rating
                 rating={product.rating}
-                numReviews={product.numReviews}
+                numReviews={product.numReview}
               ></Rating>
             </ListGroup.Item>
             <ListGroup.Item>Price: {product.price} VND</ListGroup.Item>
