@@ -3,6 +3,7 @@ import Button from 'react-bootstrap/Button';
 import InputGroup from 'react-bootstrap/InputGroup';
 import FormControl from 'react-bootstrap/FormControl';
 import Form from 'react-bootstrap/Form';
+import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
 import { useNavigate } from 'react-router-dom';
 
 export default function SearchBox() {
@@ -25,7 +26,9 @@ export default function SearchBox() {
           aria-describedby="button-search"
         ></FormControl>
         <Button variant="outline-primary" type="submit" id="button-search">
-          <i className="fas fa-search"></i>
+          <i>
+            <MagnifyingGlassIcon className="icon-style" />
+          </i>
         </Button>
       </InputGroup>
     </Form>

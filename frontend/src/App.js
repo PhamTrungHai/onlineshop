@@ -33,6 +33,7 @@ import ProductEditScreen from './screens/ProductEditScreen';
 import OrderListScreen from './screens/OrderListScreen';
 import UserListScreen from './screens/UserListScreen';
 import UserEditScreen from './screens/UserEditScreen';
+import Footer from './components/Footer';
 
 function App() {
   const { state, dispatch: ctxDispatch } = useContext(Store);
@@ -82,7 +83,7 @@ function App() {
           theme="dark"
         />
         <header className="App-header">
-          <Navbar bg="dark" variant="dark" expand="lg">
+          <Navbar expand="lg" className="bg-theme">
             <Container>
               <Button
                 variant="dark"
@@ -262,8 +263,8 @@ function App() {
             </Routes>
           </Container>
         </main>
-        <footer>
-          <div className="text-center">All right ..</div>
+        <footer className="bg-theme pt-7 pb-5 ">
+          <Footer />
         </footer>
       </div>
     </BrowserRouter>

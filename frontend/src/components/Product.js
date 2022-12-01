@@ -44,7 +44,7 @@ function Product(props) {
             </Button>
           ) : (
             <Button onClick={() => addToCartHandler(product)}>
-              Them vao gio hang
+              Thêm vào giỏ hàng
             </Button>
           )}
         </Link>
