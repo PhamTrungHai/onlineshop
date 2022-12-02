@@ -34,6 +34,7 @@ import OrderListScreen from './screens/OrderListScreen';
 import UserListScreen from './screens/UserListScreen';
 import UserEditScreen from './screens/UserEditScreen';
 import Footer from './components/Footer';
+import Offcanvas from 'react-bootstrap/Offcanvas';
 
 function App() {
   const { state, dispatch: ctxDispatch } = useContext(Store);
@@ -63,28 +64,22 @@ function App() {
 
   return (
     <BrowserRouter>
-      <div
-        className={
-          sidebarIsopen
-            ? 'd-flex flex-column site-container active-cont'
-            : 'd-flex flex-column site-container'
-        }
-      >
-        <ToastContainer
-          position="top-center"
-          autoClose={4000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-          theme="dark"
-        />
+      <ToastContainer
+        position="top-center"
+        autoClose={4000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
+      <div>
         <header className="App-header">
           <Navbar expand="lg" className="bg-theme">
-            <Container>
+            <Container fluid>
               <Button
                 variant="dark"
                 onClick={() => setSidebarIsOpen(!sidebarIsopen)}
@@ -99,7 +94,7 @@ function App() {
                 <SearchBox />
                 <Nav className="me-auto w-100 justify-content-end">
                   <Link to="/cart" className="nav-link">
-                    Cart
+                    <i className="fa-solid fa-cart-shopping"></i>
                     {cart.cartItems.length > 0 && (
                       <Badge pill bg="danger">
                         {cart.cartItems.reduce((a, c) => a + c.quantity, 0)}
@@ -109,10 +104,14 @@ function App() {
                   {userInfo ? (
                     <NavDropdown title={userInfo.name} id="basic-nav-dropdown">
                       <LinkContainer to="/profile">
-                        <NavDropdown.Item>User Profile</NavDropdown.Item>
+                        <NavDropdown.Item>
+                          <i class="fa-sharp fa-solid fa-user"></i> User Profile
+                        </NavDropdown.Item>
                       </LinkContainer>
                       <LinkContainer to="/orderhistory">
-                        <NavDropdown.Item>Order history</NavDropdown.Item>
+                        <NavDropdown.Item>
+                          <i class="fa-solid fa-receipt"></i> Order history
+                        </NavDropdown.Item>
                       </LinkContainer>
                       <NavDropdown.Divider />
                       <Link
@@ -120,7 +119,7 @@ function App() {
                         to="#signout"
                         onClick={signoutHandler}
                       >
-                        Sign Out
+                        <i class="fa-sharp fa-solid fa-door-open"></i> Sign Out
                       </Link>
                     </NavDropdown>
                   ) : (
@@ -131,16 +130,25 @@ function App() {
                   {userInfo && userInfo.isAdmin && (
                     <NavDropdown title="Admin" id="admin-nav-dropdown">
                       <LinkContainer to="/admin/dashboard">
-                        <NavDropdown.Item>Dashboard</NavDropdown.Item>
+                        <NavDropdown.Item>
+                          <i className="fa-solid fa-gauge"></i> Dashboard
+                        </NavDropdown.Item>
                       </LinkContainer>
                       <LinkContainer to="/admin/products">
-                        <NavDropdown.Item>Products</NavDropdown.Item>
+                        <NavDropdown.Item>
+                          <i className="fa-solid fa-box"></i> Products
+                        </NavDropdown.Item>
                       </LinkContainer>
                       <LinkContainer to="/admin/orders">
-                        <NavDropdown.Item>Orders</NavDropdown.Item>
+                        <NavDropdown.Item>
+                          <i className="fa-sharp fa-solid fa-truck"></i> Orders
+                        </NavDropdown.Item>
                       </LinkContainer>
                       <LinkContainer to="/admin/users">
-                        <NavDropdown.Item>Users</NavDropdown.Item>
+                        <NavDropdown.Item>
+                          <i className="fa-sharp fa-solid fa-users-line"></i>{' '}
+                          Users
+                        </NavDropdown.Item>
                       </LinkContainer>
                     </NavDropdown>
                   )}
@@ -149,32 +157,33 @@ function App() {
             </Container>
           </Navbar>
         </header>
-        <div
-          className={
-            sidebarIsopen
-              ? 'active-nav side-navbar d-flex justify-content-between flex-wrap flex-column'
-              : 'side-navbar d-flex justify-content-between flex-wrap flex-column'
-          }
-        >
-          <Nav className="flex-column text-white w-100 p-2">
-            <Nav.Item>
-              <strong>Categories</strong>
-            </Nav.Item>
-            {categories.map((category) => (
-              <Nav.Item key={category}>
-                <LinkContainer
-                  //to={`/search?category=${category}`}
-                  to={{
-                    pathname: '/search',
-                    search: `?category=${category}`,
-                  }}
-                  onClick={() => setSidebarIsOpen(false)}
-                >
-                  <Nav.Link>{category}</Nav.Link>
-                </LinkContainer>
-              </Nav.Item>
-            ))}
-          </Nav>
+        <div>
+          <Offcanvas
+            show={sidebarIsopen}
+            onHide={() => setSidebarIsOpen(!sidebarIsopen)}
+          >
+            <Offcanvas.Header closeButton className="bg-slate-500">
+              <Offcanvas.Title>
+                <strong>Categories</strong>
+              </Offcanvas.Title>
+            </Offcanvas.Header>
+            <Offcanvas.Body className="flex-column  text-blue-600 text-lg ">
+              {categories.map((category) => (
+                <Nav.Item key={category}>
+                  <LinkContainer
+                    //to={`/search?category=${category}`}
+                    to={{
+                      pathname: '/search',
+                      search: `?category=${category}`,
+                    }}
+                    onClick={() => setSidebarIsOpen(false)}
+                  >
+                    <Nav.Link>{category}</Nav.Link>
+                  </LinkContainer>
+                </Nav.Item>
+              ))}
+            </Offcanvas.Body>
+          </Offcanvas>
         </div>
         <main>
           <Container className="mt-3">
