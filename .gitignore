@@ -5,12 +5,13 @@
 node_modules
 /.pnp
 .pnp.js
+Procfile
 
 # testing
 /coverage
 
 # production
-build
+
 
 # misc
 .DS_Store
