@@ -2,11 +2,14 @@ import express from 'express';
 import Product from '../models/productModels.js';
 import expressAsyncHandler from 'express-async-handler';
 import { isAuth, isAdmin } from '../util.js';
+import { PrismaClient } from '@prisma/client';
 
+const prisma = new PrismaClient();
 const productRouter = express.Router();
 
 productRouter.get('/', async (req, res) => {
   const products = await Product.find();
+
   res.send(products);
 });
 
@@ -15,9 +18,10 @@ productRouter.post(
   isAuth,
   isAdmin,
   expressAsyncHandler(async (req, res) => {
+    const time = new Date();
     const newProduct = new Product({
       name: 'sample name ' + Date.now(),
-      slug: 'sample-name-' + Date.now(),
+      slug: 's' + time.getSeconds(),
       image: '/images/p1.jpg',
       price: 0,
       category: 'sample category',
@@ -28,6 +32,17 @@ productRouter.post(
       description: 'sample description',
     });
     const product = await newProduct.save();
+    await prisma.sANPHAM.create({
+      data: {
+        TENSP: product.name,
+        MASP: product.id,
+        SLUG: product.slug,
+        DONGIA: product.price,
+        HINHANH: product.image,
+        THUONGHIEU: product.brand,
+        CHITIET: product.description,
+      },
+    });
     res.send({ message: 'Product Created', product });
   })
 );
@@ -38,6 +53,7 @@ productRouter.put(
   isAdmin,
   expressAsyncHandler(async (req, res) => {
     const productId = req.params.id;
+
     const product = await Product.findById(productId);
     if (product) {
       product.name = req.body.name;
@@ -49,6 +65,21 @@ productRouter.put(
       product.countInStock = req.body.countInStock;
       product.description = req.body.description;
       await product.save();
+      await prisma.sANPHAM.update({
+        where: {
+          masp: productId,
+        },
+        data: {
+          tensp: req.body.name,
+          masp: req.body._id,
+          slug: req.body.slug,
+          dongia: req.body.price,
+          hinhanh: req.body.image,
+          thuonghieu: req.body.brand,
+          chitiet: req.body.description,
+        },
+      });
+
       res.send({ message: 'Product Updated' });
     } else {
       res.status(404).send({ message: 'Product Not Found' });
@@ -65,6 +96,11 @@ productRouter.delete(
     if (product) {
       await product.remove();
       res.send({ message: 'Product Deleted' });
+      await prisma.sanpham.delete({
+        where: {
+          masp: req.params.id,
+        },
+      });
     } else {
       res.status(404).send({ message: 'Product Not Found' });
     }

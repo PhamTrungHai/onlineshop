@@ -39,7 +39,7 @@ import Offcanvas from 'react-bootstrap/Offcanvas';
 function App() {
   const { state, dispatch: ctxDispatch } = useContext(Store);
   const { cart, userInfo } = state;
-  axios.defaults.baseURL = 'https://be-3dre.onrender.com';
+  // axios.defaults.baseURL = 'https://be-3dre.onrender.com';
 
   const signoutHandler = () => {
     ctxDispatch({ type: 'USER_SIGNOUT' });

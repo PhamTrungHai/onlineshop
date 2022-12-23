@@ -1,0 +1,231 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlserver"
+  url      = env("DATABASE_URL")
+}
+
+model CHUCVU {
+  MACV     String     @id(map: "PK__CHUCVU__603F183453270B78") @db.Char(4)
+  TENCV    String?    @db.NVarChar(30)
+  LUONGCB  Float?     @db.Money
+  NHANVIEN NHANVIEN[]
+}
+
+model CTDONHANG {
+  MADH    String?  @db.VarChar(50)
+  MASP    String?  @db.VarChar(50)
+  SOLUONG Int?
+  DONGIA  Float?   @db.Money
+  STT     Int      @id(map: "PK__CTDONHAN__CA1EB690948DF44E") @default(autoincrement())
+  DONHANG DONHANG? @relation(fields: [MADH], references: [MADH], onDelete: NoAction, onUpdate: NoAction, map: "FK__CTDONHANG__MADH__4222D4EF")
+  SANPHAM SANPHAM? @relation(fields: [MASP], references: [MASP], onDelete: NoAction, onUpdate: NoAction, map: "FK__CTDONHANG__MASP__4316F928")
+}
+
+model CTPHIEUNHAP {
+  MAPN      String?    @db.Char(4)
+  MASP      String?    @db.VarChar(50)
+  SOLUONG   Int?
+  DONGIA    Int?
+  STT       Int        @id(map: "PK__CTPHIEUN__CA1EB690FFF610E1") @default(autoincrement())
+  PHIEUNHAP PHIEUNHAP? @relation(fields: [MAPN], references: [MAPN], onDelete: NoAction, onUpdate: NoAction, map: "FK__CTPHIEUNHA__MAPN__59063A47")
+  SANPHAM   SANPHAM?   @relation(fields: [MASP], references: [MASP], onDelete: NoAction, onUpdate: NoAction, map: "FK__CTPHIEUNHA__MASP__59FA5E80")
+}
+
+model CTPHIEUXUAT {
+  MAPX      String?    @db.Char(4)
+  MASP      String?    @db.VarChar(50)
+  SOLUONG   Int?
+  DONGIA    Int?
+  STT       Int        @id(map: "PK__CTPHIEUX__CA1EB690BA7CB15F") @default(autoincrement())
+  PHIEUXUAT PHIEUXUAT? @relation(fields: [MAPX], references: [MAPX], onDelete: NoAction, onUpdate: NoAction, map: "FK__CTPHIEUXUA__MAPX__52593CB8")
+  SANPHAM   SANPHAM?   @relation(fields: [MASP], references: [MASP], onDelete: NoAction, onUpdate: NoAction, map: "FK__CTPHIEUXUA__MASP__534D60F1")
+}
+
+model CUAHANG {
+  MACH       String       @id(map: "PK__CUAHANG__603F182617ABEB4F") @db.Char(4)
+  DIACHI     String?      @db.NVarChar(70)
+  KHOCUAHANG KHOCUAHANG[]
+  PHIEUNHAP  PHIEUNHAP[]
+  PHIEUXUAT  PHIEUXUAT[]
+}
+
+model DIACHI {
+  USERSID  String? @db.VarChar(40)
+  CHITIET  String? @db.NVarChar(30)
+  QUAN     String? @db.NVarChar(20)
+  THANHPHO String? @db.NVarChar(30)
+  DATNUOC  String? @db.NVarChar(30)
+  STT      Int     @id(map: "PK__DIACHI__CA1EB690E9181BD8") @default(autoincrement())
+  USERS    USERS?  @relation(fields: [USERSID], references: [ID], onDelete: NoAction, onUpdate: NoAction, map: "FK__DIACHI__USERSID__300424B4")
+}
+
+model DONHANG {
+  MADH             String             @id(map: "PK__DONHANG__603F004734119344") @db.VarChar(50)
+  MAKH             String?            @db.VarChar(10)
+  SoLuongSP        Int?
+  TTien            Float?             @db.Money
+  NGAYDAT          DateTime?          @db.DateTime
+  LOAIDON          Int?
+  CTDONHANG        CTDONHANG[]
+  LOAIDONHANG      LOAIDONHANG?       @relation(fields: [LOAIDON], references: [ID], onDelete: NoAction, onUpdate: NoAction, map: "FK__DONHANG__LOAIDON__7B5B524B")
+  KHACHHANG        KHACHHANG?         @relation(fields: [MAKH], references: [MAKH], onDelete: NoAction, onUpdate: NoAction, map: "FK__DONHANG__MAKH__403A8C7D")
+  HOADON           HOADON[]
+  PHIEUXUAT        PHIEUXUAT[]
+  TRANGTHAIDONHANG TRANGTHAIDONHANG[]
+}
+
+model HOADON {
+  MAHD      String     @id(map: "PK__HOADON__603F20CEABA8FEEC") @db.Char(4)
+  MAKH      String?    @db.VarChar(10)
+  MADH      String?    @db.VarChar(50)
+  TONGTIEN  Float?     @db.Money
+  NGAYTT    DateTime?  @db.DateTime
+  DONHANG   DONHANG?   @relation(fields: [MADH], references: [MADH], onDelete: NoAction, onUpdate: NoAction, map: "FK__HOADON__MADH__4BAC3F29")
+  KHACHHANG KHACHHANG? @relation(fields: [MAKH], references: [MAKH], onDelete: NoAction, onUpdate: NoAction, map: "FK__HOADON__MAKH__4AB81AF0")
+}
+
+model KHACHHANG {
+  MAKH                         String     @id(map: "PK__KHACHHAN__603F592C726D1DF6") @db.VarChar(10)
+  LOAIKH                       String?    @db.Char(4)
+  USERS                        String?    @db.VarChar(40)
+  DONHANG                      DONHANG[]
+  HOADON                       HOADON[]
+  LOAIKHACH                    LOAIKHACH? @relation(fields: [LOAIKH], references: [MAL], onDelete: NoAction, onUpdate: NoAction, map: "FK__KHACHHANG__LOAIK__2D27B809")
+  USERS_KHACHHANG_USERSToUSERS USERS?     @relation("KHACHHANG_USERSToUSERS", fields: [USERS], references: [ID], onDelete: NoAction, onUpdate: NoAction, map: "FK__KHACHHANG__USERS__2E1BDC42")
+}
+
+model KHOCUAHANG {
+  MACUAHANG String?  @db.Char(4)
+  MASP      String?  @db.VarChar(50)
+  SOLUONG   Int?
+  STT       Int      @id(map: "PK__KHOCUAHA__CA1EB6903C127098") @default(autoincrement())
+  CUAHANG   CUAHANG? @relation(fields: [MACUAHANG], references: [MACH], onDelete: NoAction, onUpdate: NoAction, map: "FK__KHOCUAHAN__MACUA__3C69FB99")
+  SANPHAM   SANPHAM? @relation(fields: [MASP], references: [MASP], onDelete: NoAction, onUpdate: NoAction, map: "FK__KHOCUAHANG__MASP__3D5E1FD2")
+}
+
+model LOAIDONHANG {
+  ID      Int       @id(map: "PK__LOAIDONH__3214EC27BB4ABF1A") @default(autoincrement())
+  TENLOAI String?   @db.NVarChar(30)
+  DONHANG DONHANG[]
+}
+
+model LOAIKHACH {
+  MAL       String      @id(map: "PK__LOAIKHAC__C7907784EB3DCEF4") @db.Char(4)
+  TENLOAI   String?     @db.NVarChar(20)
+  CHIETKHAU Float?      @db.Real
+  KHACHHANG KHACHHANG[]
+}
+
+model NHANVIEN {
+  MANV                        String      @id(map: "PK__NHANVIEN__603F51145A13E682") @db.VarChar(10)
+  MACV                        String?     @db.Char(4)
+  USERS                       String?     @db.VarChar(40)
+  CHUCVU                      CHUCVU?     @relation(fields: [MACV], references: [MACV], onDelete: NoAction, onUpdate: NoAction, map: "FK__NHANVIEN__MACV__34C8D9D1")
+  USERS_NHANVIEN_USERSToUSERS USERS?      @relation("NHANVIEN_USERSToUSERS", fields: [USERS], references: [ID], onDelete: NoAction, onUpdate: NoAction, map: "FK__NHANVIEN__USERS__35BCFE0A")
+  PHIEUNHAP                   PHIEUNHAP[]
+  PHIEUXUAT                   PHIEUXUAT[]
+}
+
+model PHIEUNHAP {
+  MAPN        String        @id(map: "PK__PHIEUNHA__603F61CEDAF7B2E2") @db.Char(4)
+  MACUAHHANG  String?       @db.Char(4)
+  MANV        String?       @db.VarChar(10)
+  SoLuongSP   Int?
+  NGAY        DateTime?     @db.Date
+  TONGTIEN    Float?        @db.Money
+  CTPHIEUNHAP CTPHIEUNHAP[]
+  CUAHANG     CUAHANG?      @relation(fields: [MACUAHHANG], references: [MACH], onDelete: NoAction, onUpdate: NoAction, map: "FK__PHIEUNHAP__MACUA__5629CD9C")
+  NHANVIEN    NHANVIEN?     @relation(fields: [MANV], references: [MANV], onDelete: NoAction, onUpdate: NoAction, map: "FK__PHIEUNHAP__MANV__571DF1D5")
+}
+
+model PHIEUXUAT {
+  MAPX        String        @id(map: "PK__PHIEUXUA__603F61D8337C35F7") @db.Char(4)
+  MACUAHHANG  String?       @db.Char(4)
+  MADH        String?       @db.VarChar(50)
+  MANV        String?       @db.VarChar(10)
+  TongSoLuong Int?
+  NGAY        DateTime?     @db.Date
+  CTPHIEUXUAT CTPHIEUXUAT[]
+  CUAHANG     CUAHANG?      @relation(fields: [MACUAHHANG], references: [MACH], onDelete: NoAction, onUpdate: NoAction, map: "FK__PHIEUXUAT__MACUA__4E88ABD4")
+  DONHANG     DONHANG?      @relation(fields: [MADH], references: [MADH], onDelete: NoAction, onUpdate: NoAction, map: "FK__PHIEUXUAT__MADH__4F7CD00D")
+  NHANVIEN    NHANVIEN?     @relation(fields: [MANV], references: [MANV], onDelete: NoAction, onUpdate: NoAction, map: "FK__PHIEUXUAT__MANV__5070F446")
+}
+
+model ROLES {
+  ROLEID      Int           @default(autoincrement())
+  ROLECODE    String        @id(map: "PK__ROLES__136F8BB47B364CBC") @db.VarChar(7)
+  USERS_ROLES USERS_ROLES[]
+}
+
+model SANPHAM {
+  MASP        String        @id(map: "PK__SANPHAM__60228A32C798866C") @db.VarChar(50)
+  SLUG        String?       @db.VarChar(10)
+  DONGIA      Float?        @db.Money
+  CHITIET     String?       @db.NVarChar(300)
+  THUONGHIEU  String?       @db.VarChar(40)
+  TENSP       String?       @db.NVarChar(100)
+  HINHANH     String?       @db.Text
+  CTDONHANG   CTDONHANG[]
+  CTPHIEUNHAP CTPHIEUNHAP[]
+  CTPHIEUXUAT CTPHIEUXUAT[]
+  KHOCUAHANG  KHOCUAHANG[]
+}
+
+model sysdiagrams {
+  name         String @db.NVarChar(128)
+  principal_id Int
+  diagram_id   Int    @id(map: "PK__sysdiagr__C2B05B6156D2D0A7") @default(autoincrement())
+  version      Int?
+  definition   Bytes?
+
+  @@unique([principal_id, name], map: "UK_principal_name")
+}
+
+model TRANGTHAI {
+  MATT             Int                @id(map: "PK__TRANGTHA__6023720FDA570EB1") @default(autoincrement())
+  TENTT            String?            @db.NVarChar(30)
+  TRANGTHAIDONHANG TRANGTHAIDONHANG[]
+}
+
+model TRANGTHAIDONHANG {
+  MADH      String?    @db.VarChar(50)
+  MATT      Int?
+  NGAYTT    DateTime?  @db.DateTime
+  STT       Int        @id(map: "PK__TRANGTHA__CA1EB690979C57D3") @default(autoincrement())
+  DONHANG   DONHANG?   @relation(fields: [MADH], references: [MADH], onDelete: NoAction, onUpdate: NoAction, map: "FK__TRANGTHAID__MADH__46E78A0C")
+  TRANGTHAI TRANGTHAI? @relation(fields: [MATT], references: [MATT], onDelete: NoAction, onUpdate: NoAction, map: "FK__TRANGTHAID__MATT__47DBAE45")
+}
+
+model USERBACKUP {
+  ID         Int       @id(map: "PK__USERBACK__3214EC27026D1D2A") @default(autoincrement())
+  Table_name String?   @db.NVarChar(10)
+  Operation  String?   @db.NVarChar(10)
+  AuditData  String?   @db.NVarChar(Max)
+  username   String?   @db.NVarChar(10)
+  AuditDate  DateTime? @db.DateTime
+}
+
+model USERS {
+  ID                               String        @id(map: "PK__USERS__3214EC279C8E087A") @db.VarChar(40)
+  TEN                              String?       @db.NVarChar(30)
+  MK                               String?       @db.NVarChar(100)
+  EMAIL                            String?       @db.VarChar(20)
+  ISNHANVIEN                       Boolean?
+  DIACHI                           DIACHI[]
+  KHACHHANG_KHACHHANG_USERSToUSERS KHACHHANG[]   @relation("KHACHHANG_USERSToUSERS")
+  NHANVIEN_NHANVIEN_USERSToUSERS   NHANVIEN[]    @relation("NHANVIEN_USERSToUSERS")
+  USERS_ROLES                      USERS_ROLES[]
+
+  @@index([ID, TEN], map: "index_userten")
+}
+
+model USERS_ROLES {
+  USERID   String? @db.VarChar(40)
+  USERROLE String? @db.VarChar(7)
+  STT      Int     @id(map: "PK__USERS_RO__CA1EB6900612146D") @default(autoincrement())
+  USERS    USERS?  @relation(fields: [USERID], references: [ID], onDelete: NoAction, onUpdate: NoAction, map: "FK__USERS_ROL__USERI__276EDEB3")
+  ROLES    ROLES?  @relation(fields: [USERROLE], references: [ROLECODE], onDelete: NoAction, onUpdate: NoAction, map: "FK__USERS_ROL__USERR__286302EC")
+}
